@@ -18,21 +18,24 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
-const formSchema = z.object({
-  username: z.string().min(2, {message: "Username must be at least 2 characters."}).max(50),
-})
+import CustomInput from './CustomInput'
+import { authFormSchema } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
 
 
 const AuthForm = ({type}) => {
 
   const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const formSchema = authFormSchema(type);
 
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
+      password: "",
     },
   })
 
@@ -40,7 +43,9 @@ const AuthForm = ({type}) => {
   function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setIsLoading(true)
     console.log(values)
+    setIsLoading(false)
   }
 
 
@@ -75,25 +80,71 @@ const AuthForm = ({type}) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input placeholder="shadcn" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+
+                {type === 'sign-up' && (
+                  <>
+                    <div className='flex gap-4'>
+                      <CustomInput control={form.control} name="firstName"
+                        label="First Name" placeholder="Ex: John" />
+                      <CustomInput control={form.control} name="lastName"
+                      label="Last Name" placeholder="Ex: Doe" />
+                    </div>
+
+                    <CustomInput control={form.control} name="address1"
+                    label="Address" placeholder="Enter your specific adderss" />
+
+                    <div className='flex gap-4'>
+                      <CustomInput control={form.control} name="state"
+                      label="State" placeholder="Ex: NY" />
+                      <CustomInput control={form.control} name="postalCode"
+                      label="Postal Code" placeholder="Ex: 11101" />
+                    </div>
+
+                    <div className='flex gap-4'>
+                      <CustomInput control={form.control} name="dateOfBirth"
+                      label="Date Of Birth" placeholder="yyyy-mm-dd" />
+                      <CustomInput control={form.control} name="ssn"
+                      label="SSN" placeholder="Ex: 1234" />
+                    </div>
+                  </>
                 )}
-              />
-              <Button type="submit">Submit</Button>
+
+                <CustomInput 
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  placeholder="Enter your email"
+                />
+                <CustomInput 
+                  control={form.control}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                />
+
+                <div className='flex flex-col gap-4'>
+                  <Button type="submit" disabled={isLoading} className='form-btn'>
+                    {isLoading ? (
+                      <>
+                        <Loader2 size={20} className='animate-spin'/> &nbsp;
+                        Loading...
+                      </>
+                    ) : type === 'sign-in'
+                    ? 'Sign In' : 'Sign Up'}
+                  </Button>
+                </div>
             </form>
           </Form>
+
+          <footer className='flex justify-center gap-1'>
+            <p className='text-14 font-normal text-gray-600'>
+              {type === 'sign-in' ? "Don't have an account?" : "Already have an account?"}
+            </p>
+            <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className='form-link'>
+            {type === 'sign-in' ? 'Sign Up' : 'Sign In'}
+            </Link>
+          </footer>
+
         </>
       )}
     </section>
