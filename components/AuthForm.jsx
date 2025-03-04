@@ -21,10 +21,12 @@ import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { signIn, signUp } from '@/lib/actions/user.actions'
 
 
 const AuthForm = ({type}) => {
-
+  const router = useRouter()
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -40,12 +42,37 @@ const AuthForm = ({type}) => {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  const onSubmit = async (data) => {
+
     setIsLoading(true)
-    console.log(values)
+  try {
+
+    // TODO: Sign up with Appwrite & Create plaid link token
+    if(type === 'sign-up') {
+      const newUser = await signUp(data)
+      setUser(newUser)
+      console.log(newUser);
+    }
+
+    if(type === 'sign-in') {
+      const response = await signIn({
+        email: data.email,
+        password: data.password
+      })
+      if(response) {
+        router.push('/')
+      }
+    } 
+
+
+  } catch (error) {
+    console.log(error);
+  } finally {
+    
     setIsLoading(false)
+  }
+    
+    
   }
 
 
@@ -92,6 +119,9 @@ const AuthForm = ({type}) => {
 
                     <CustomInput control={form.control} name="address1"
                     label="Address" placeholder="Enter your specific adderss" />
+
+                    <CustomInput control={form.control} name="city"
+                    label="City" placeholder="Enter your city" />
 
                     <div className='flex gap-4'>
                       <CustomInput control={form.control} name="state"
