@@ -1,28 +1,24 @@
+/* eslint-disable react/prop-types */
 'use client'
 
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-import { z } from "zod"
+// import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { signIn, signUp } from '@/lib/actions/user.actions'
+import PlaidLink from './PlaidLink'
 
 
 const AuthForm = ({type}) => {
@@ -48,10 +44,27 @@ const AuthForm = ({type}) => {
   try {
 
     // TODO: Sign up with Appwrite & Create plaid link token
+
+
+
     if(type === 'sign-up') {
-      const newUser = await signUp(data)
+
+      const userData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address1: data.address1,
+        city: data.city,
+        state: data.state,
+        postalCode: data.postalCode,
+        dateOfBirth: data.dateOfBirth,
+        ssn: data.ssn,
+        email: data.email,
+        password: data.password,
+      }
+
+      const newUser = await signUp(userData)
       setUser(newUser)
-      console.log(newUser);
+      console.log(userData);
     }
 
     if(type === 'sign-in') {
@@ -101,7 +114,10 @@ const AuthForm = ({type}) => {
       </header>
       {user ? (
         <div className='flex flex-col gap-4'>
-            {/* //TODO PlaidLink */}
+            <PlaidLink 
+              user={user}
+              variant="primary"
+            />
         </div>
       ): (
         <>
