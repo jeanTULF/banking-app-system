@@ -20,7 +20,7 @@ const Footer = ({user, type = 'desktop' }) => {
             </p>
         </div>
 
-        <div classfirstName={type === 'mobile' ? 'footer_email-mobile' : 'footer_email'}>
+        <div className={type === 'mobile' ? 'footer_email-mobile' : 'footer_email'}>
             <h1 className='text-14 truncate text-gray-700 font-semibold'>
                 {user.name}
             </h1>

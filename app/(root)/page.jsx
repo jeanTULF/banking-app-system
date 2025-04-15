@@ -5,7 +5,7 @@ import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
 import React from 'react'
 
-const Home = async ({searchParams: {id, page}}) => {
+const Home = async ({ searchParams: { id, page } }) => {
 
   const loggedIn = await getLoggedInUser();
   const accounts = await getAccounts({userId: loggedIn.$id})
