@@ -17,7 +17,6 @@ const Home = async ({ searchParams: { id, page } }) => {
   const appwriteItemId = (id) || accountsData[0]?.appwriteItemId;
 
   const account = await getAccount({ appwriteItemId })
-  console.log(loggedIn);
 
   console.log({
     account,
@@ -34,8 +33,6 @@ const Home = async ({ searchParams: { id, page } }) => {
             user={loggedIn?.firstName || 'Guest' }
             subtext='Access and manage your account and transacctions efficently'
           />
-
-          {/* // TODO:  Fix para mostrar la data de balance en los bancos (no estar en 0 ) */}
 
           <TotalBalanceBox 
             accounts={[accountsData]}
