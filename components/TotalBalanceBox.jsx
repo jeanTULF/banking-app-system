@@ -20,7 +20,7 @@ const TotalBalanceBox = ({accounts = [], totalBanks, totalCurrentBalance}) => {
                 </p>
 
                 <div className='total-balance-amount flex-center gap-2'>
-                    {/* Mision: conseguir formatear automaticamente las monedas por localizacion basandose en los utils del tutorial */}
+                    {/* // TODO: conseguir formatear automaticamente las monedas por localizacion basandose en los utils del tutorial */}
                     <AnimatedCounter amount={totalCurrentBalance}/>
                 </div>
             </div>  
