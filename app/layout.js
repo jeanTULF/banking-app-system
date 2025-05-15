@@ -1,5 +1,6 @@
 import { IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
+import React from "react";
 
 const ibmPlexSerif = IBM_Plex_Serif({
   subsets: ['latin'],
