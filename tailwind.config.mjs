@@ -6,6 +6,15 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "border-[#F2F4F7]",
+  "text-[#344054]",
+  "bg-[#F2F4F7]",
+  "border-[#12B76A]",
+  "bg-[#12B76A]",
+  "text-[#027A48]",
+  "bg-[#ECFDF3]"
+  ],
   theme: {
     container: {
       center: true,
